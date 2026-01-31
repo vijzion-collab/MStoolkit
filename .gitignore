@@ -1,0 +1,32 @@
+# Next.js
+.next/
+out/
+build/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Env
+.env*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# FrameWork Global - Exclude Clones
+anthropics-skills/*
+!anthropics-skills/.gitkeep
+claude-code-templates/*
+!claude-code-templates/.gitkeep
+custom-skills/claude-agent-skills/*
+!custom-skills/claude-agent-skills/.gitkeep
