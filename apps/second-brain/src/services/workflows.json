@@ -1,0 +1,13 @@
+[
+    {
+        "id": "1",
+        "name": "Deploy",
+        "command": "/deploy",
+        "description": "Production deployment workflow.",
+        "steps": [
+            "Build",
+            "Test",
+            "Deploy"
+        ]
+    }
+]

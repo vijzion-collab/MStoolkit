@@ -1,0 +1,9 @@
+[
+    {
+        "id": "1",
+        "name": "Orchestrator",
+        "role": "System Manager",
+        "status": "Active",
+        "description": "Coordinates all system activities and manages agent interactions."
+    }
+]

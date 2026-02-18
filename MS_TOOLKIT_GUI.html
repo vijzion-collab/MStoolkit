@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MS Toolkit | Pro Max</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#050505',
+                        surface: '#0A0A0A',
+                        primary: '#CCFF00', // Acid Green
+                        'primary-dim': '#99CC00',
+                        secondary: '#333333',
+                        text: '#FFFFFF',
+                        muted: '#888888',
+                        danger: '#FF4444',
+                        success: '#00FF88',
+                        border: '#222222'
+                    },
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', '"Fira Code"', 'Consolas', 'monospace'],
+                        sans: ['"Inter"', 'system-ui', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(204, 255, 0, 0.1)',
+                        'glow-hover': '0 0 30px rgba(204, 255, 0, 0.2)'
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.text');
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Cyber Brutalist Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #CCFF00;
+        }
+
+        .cyber-border {
+            border: 1px solid theme('colors.border');
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cyber-border:hover {
+            border-color: theme('colors.primary');
+            box-shadow: theme('boxShadow.glow-hover');
+        }
+
+        .cyber-card {
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        .cyber-button {
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+            transition: all 0.2s ease;
+        }
+
+        .cyber-button:active {
+            transform: translateY(2px);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.02) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen flex flex-col p-4 md:p-8 relative overflow-x-hidden selection:bg-primary selection:text-black">
+    <div class="scanline"></div>
+
+    <div class="max-w-6xl mx-auto w-full relative z-10">
+        <!-- HEADER -->
+        <header class="mb-12 border-b border-primary/30 pb-6 flex justify-between items-end">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-black tracking-tighter uppercase text-white mb-2">
+                    MS<span class="text-primary">Toolkit</span>
+                </h1>
+                <p class="text-muted font-mono text-sm tracking-widest uppercase">Manufactured Spending Intelligence
+                    v2.0</p>
+            </div>
+            <div class="hidden md:block text-right">
+                <div class="font-mono text-primary text-xs">SYSTEM: ONLINE</div>
+                <div class="font-mono text-muted text-xs">SECURE CONNECTION</div>
+            </div>
+        </header>
+
+        <!-- NAVIGATION -->
+        <nav class="flex overflow-x-auto gap-4 mb-8 pb-2 scrollbar-hide">
+            <button onclick="switchTab('providers')"
+                class="nav-btn active px-6 py-3 font-mono font-bold text-sm uppercase tracking-wider border border-primary bg-primary/10 text-primary hover:bg-primary hover:text-black transition-all cyber-button whitespace-nowrap">
+                📋 Providers
+            </button>
+            <button onclick="switchTab('roi')"
+                class="nav-btn px-6 py-3 font-mono font-bold text-sm uppercase tracking-wider border border-border text-muted hover:border-primary hover:text-primary transition-all cyber-button whitespace-nowrap">
+                📊 ROI Calc
+            </button>
+            <button onclick="switchTab('azeo')"
+                class="nav-btn px-6 py-3 font-mono font-bold text-sm uppercase tracking-wider border border-border text-muted hover:border-primary hover:text-primary transition-all cyber-button whitespace-nowrap">
+                💳 AZEO Sim
+            </button>
+            <button onclick="switchTab('risk')"
+                class="nav-btn px-6 py-3 font-mono font-bold text-sm uppercase tracking-wider border border-border text-muted hover:border-primary hover:text-primary transition-all cyber-button whitespace-nowrap">
+                ⚠️ Risk Ops
+            </button>
+        </nav>
+
+        <!-- CONTENT AREA -->
+        <main class="relative min-h-[400px]">
+
+            <!-- PROVIDERS -->
+            <section id="providers" class="tab-content animate-fade-in block">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Provider Card 1 -->
+                    <div class="cyber-border cyber-card p-6 flex flex-col justify-between h-full group">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">
+                                    Plastiq</h3>
+                                <span
+                                    class="bg-primary/20 text-primary text-xs font-mono px-2 py-1 rounded-none border border-primary/50">2.85%</span>
+                            </div>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                                Premium bill payment service accepting generic CCs. Ideal for mortgage, rent, and
+                                high-value recurring bills.
+                            </p>
+                        </div>
+                        <div class="font-mono text-xs text-muted uppercase tracking-wider pt-4 border-t border-white/5">
+                            Status: <span class="text-success">Active</span>
+                        </div>
+                    </div>
+
+                    <!-- Provider Card 2 -->
+                    <div class="cyber-border cyber-card p-6 flex flex-col justify-between h-full group">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">
+                                    Melio</h3>
+                                <span
+                                    class="bg-primary/20 text-primary text-xs font-mono px-2 py-1 rounded-none border border-primary/50">2.9%</span>
+                            </div>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                                B2B payment platform. Requires business verification. Excellent for vendor payments and
+                                operational expenses.
+                            </p>
+                        </div>
+                        <div class="font-mono text-xs text-muted uppercase tracking-wider pt-4 border-t border-white/5">
+                            Status: <span class="text-success">Active</span>
+                        </div>
+                    </div>
+
+                    <!-- Provider Card 3 -->
+                    <div class="cyber-border cyber-card p-6 flex flex-col justify-between h-full group">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">Amex
+                                    Send</h3>
+                                <span
+                                    class="bg-success/20 text-success text-xs font-mono px-2 py-1 rounded-none border border-success/50">0.0%</span>
+                            </div>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                                Native Amex P2P integration. Limits vary by card tier. No cash advance fees if
+                                configured correctly.
+                            </p>
+                        </div>
+                        <div class="font-mono text-xs text-muted uppercase tracking-wider pt-4 border-t border-white/5">
+                            Status: <span class="text-success">Active</span>
+                        </div>
+                    </div>
+
+                    <!-- Provider Card 4 -->
+                    <div class="cyber-border cyber-card p-6 flex flex-col justify-between h-full group">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">P2P
+                                    Apps</h3>
+                                <span
+                                    class="bg-danger/20 text-danger text-xs font-mono px-2 py-1 rounded-none border border-danger/50">High
+                                    Risk</span>
+                            </div>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                                Venmo, PayPal, CashApp. 2.9% + $0.30 typical. High shutdown risk for circular loops. Use
+                                with caution.
+                            </p>
+                        </div>
+                        <div class="font-mono text-xs text-muted uppercase tracking-wider pt-4 border-t border-white/5">
+                            Status: <span class="text-warning text-yellow-500">Caution</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acronyms -->
+                <div class="mt-12 bg-white/5 border border-white/10 p-6">
+                    <h4 class="text-primary font-mono text-sm uppercase tracking-widest mb-4">Field Lexicon</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-3 py-1 bg-black border border-white/20 text-xs font-mono text-gray-400"><strong
+                                class="text-white">MS:</strong> Manufactured Spending</span>
+                        <span class="px-3 py-1 bg-black border border-white/20 text-xs font-mono text-gray-400"><strong
+                                class="text-white">AZEO:</strong> All Zero Except One</span>
+                        <span class="px-3 py-1 bg-black border border-white/20 text-xs font-mono text-gray-400"><strong
+                                class="text-white">SUB:</strong> Sign-Up Bonus</span>
+                        <span class="px-3 py-1 bg-black border border-white/20 text-xs font-mono text-gray-400"><strong
+                                class="text-white">CL:</strong> Credit Limit</span>
+                        <span class="px-3 py-1 bg-black border border-white/20 text-xs font-mono text-gray-400"><strong
+                                class="text-white">MO:</strong> Money Order</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ROI CALCULATOR -->
+            <section id="roi" class="tab-content hidden h-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Controls -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="bg-surface border border-border p-6 cyber-card">
+                            <label class="block text-muted text-xs font-mono uppercase tracking-widest mb-2">Spend
+                                Amount ($)</label>
+                            <input type="number" id="roiSpend" value="1000"
+                                class="w-full bg-black border border-gray-800 focus:border-primary text-white p-4 font-mono text-lg focus:outline-none transition-colors">
+                        </div>
+
+                        <div class="bg-surface border border-border p-6 cyber-card">
+                            <label class="block text-muted text-xs font-mono uppercase tracking-widest mb-2">Fee
+                                Percentage (%)</label>
+                            <input type="number" id="roiFee" value="2.9" step="0.1"
+                                class="w-full bg-black border border-gray-800 focus:border-primary text-white p-4 font-mono text-lg focus:outline-none transition-colors">
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="bg-surface border border-border p-6 cyber-card w-1/2">
+                                <label class="block text-muted text-xs font-mono uppercase tracking-widest mb-2">Pts
+                                    Multiplier</label>
+                                <input type="number" id="roiPtsPerDollar" value="2.0" step="0.1"
+                                    class="w-full bg-black border border-gray-800 focus:border-primary text-white p-4 font-mono text-lg focus:outline-none transition-colors">
+                            </div>
+                            <div class="bg-surface border border-border p-6 cyber-card w-1/2">
+                                <label class="block text-muted text-xs font-mono uppercase tracking-widest mb-2">Pt
+                                    Value ($)</label>
+                                <input type="number" id="roiPtValue" value="0.02" step="0.001"
+                                    class="w-full bg-black border border-gray-800 focus:border-primary text-white p-4 font-mono text-lg focus:outline-none transition-colors">
+                            </div>
+                        </div>
+
+                        <button onclick="calculateROI()"
+                            class="w-full py-4 bg-primary text-black font-black uppercase tracking-widest hover:bg-white transition-colors cyber-button">
+                            Execute Calculation
+                        </button>
+                    </div>
+
+                    <!-- Results Display -->
+                    <div class="lg:col-span-7 flex flex-col justify-center">
+                        <div id="roiResults"
+                            class="cyber-border cyber-card p-8 lg:p-12 relative overflow-hidden hidden opacity-0 transition-opacity duration-500">
+                            <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+                                <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" />
+                                </svg>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-8 mb-8 border-b border-white/10 pb-8">
+                                <div>
+                                    <div class="text-muted text-xs font-mono uppercase mb-1">Total Fees</div>
+                                    <div id="resFees" class="text-2xl text-white font-mono">$0.00</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-muted text-xs font-mono uppercase mb-1">Rewards Value</div>
+                                    <div id="resRewards" class="text-2xl text-primary font-mono">$0.00</div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <div class="text-muted text-sm font-mono uppercase tracking-widest mb-2">Net Profit
+                                </div>
+                                <div id="resProfit"
+                                    class="text-6xl md:text-7xl font-black text-white tracking-tighter mb-4">$0.00</div>
+                                <div id="resROI"
+                                    class="inline-block px-4 py-1 bg-white/10 text-white font-mono rounded-full">0.00%
+                                    ROI</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AZEO SIMULATOR -->
+            <section id="azeo" class="tab-content hidden">
+                <div class="mb-8 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-2">AZEO Optimization Protocol</h2>
+                        <p class="text-muted text-sm">Optimize credit utilization vectors.</p>
+                    </div>
+                    <button onclick="addCard()"
+                        class="px-4 py-2 border border-primary text-primary font-mono text-xs uppercase hover:bg-primary hover:text-black transition-colors">
+                        + Add Line
+                    </button>
+                </div>
+
+                <!-- Card Grid -->
+                <div id="cardInputs" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <!-- Dynamic cards go here -->
+                </div>
+
+                <div class="flex justify-center mb-12">
+                    <button onclick="simulateAZEO()"
+                        class="px-12 py-4 bg-primary text-black font-black uppercase tracking-widest hover:bg-white transition-colors cyber-button w-full md:w-auto">
+                        Run Simulation
+                    </button>
+                </div>
+
+                <!-- Simulation Results -->
+                <div id="azeoResults" class="hidden">
+                    <!-- JS Injected -->
+                </div>
+            </section>
+
+            <!-- RISK CHECKER -->
+            <section id="risk" class="tab-content hidden">
+                <div class="max-w-2xl mx-auto">
+                    <div class="bg-surface border border-border p-8 cyber-card mb-8">
+                        <label class="block text-primary text-xs font-mono uppercase tracking-widest mb-4">Transaction
+                            Sequence Input</label>
+                        <textarea id="riskSteps" rows="4"
+                            class="w-full bg-black border border-gray-800 focus:border-danger text-white p-4 font-mono text-sm focus:outline-none transition-colors mb-4"
+                            placeholder="BankA, CC1, Venmo, BankB, CC2, BankA..."></textarea>
+                        <p class="text-muted text-xs">Enter comma-separated entities to detect circular flow.</p>
+                    </div>
+
+                    <button onclick="checkRisk()"
+                        class="w-full py-4 border border-white/20 text-white font-mono uppercase tracking-widest hover:border-danger hover:text-danger hover:bg-danger/5 transition-all cyber-button">
+                        Initiate Risk Scan
+                    </button>
+
+                    <div id="riskResults" class="mt-8 space-y-4 hidden">
+                        <!-- Results -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Background Grid -->
+    <div class="fixed inset-0 z-0 pointer-events-none"
+        style="background-image: radial-gradient(circle at 1px 1px, #222 1px, transparent 0); background-size: 40px 40px; opacity: 0.5;">
+    </div>
+
+    <script>
+        // Init
+        window.addEventListener('DOMContentLoaded', () => {
+            addCard(); // Add initial card 1
+            addCard(); // Add initial card 2
+
+            // Show ROI on load for immediate impression
+            switchTab('roi');
+            calculateROI();
+        });
+
+        // Tabs
+        function switchTab(id) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block', 'animate-fade-in');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-primary', 'bg-primary/10', 'text-primary');
+                btn.classList.add('border-border', 'text-muted');
+            });
+
+            const target = document.getElementById(id);
+            target.classList.remove('hidden');
+            target.classList.add('block', 'animate-fade-in');
+
+            // Find the button that triggered this or matches the ID
+            // Simple hack since we're passing string ID
+            const btns = document.querySelectorAll('.nav-btn');
+            // Mapping based on index is risky, let's just re-style based on onclick attr text content matching
+            // Actually, simpler to just pass 'this' if we changed the call, but let's just maintain state manually
+            // Re-highlighting logic isn't strictly needed for this demo if we just trust the user click
+        }
+
+        // Listeners for active state (Simple implementation)
+        const navBtns = document.querySelectorAll('.nav-btn');
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                navBtns.forEach(b => {
+                    b.className = "nav-btn px-6 py-3 font-mono font-bold text-sm uppercase tracking-wider border border-border text-muted hover:border-primary hover:text-primary transition-all cyber-button whitespace-nowrap";
+                });
+                this.className = "nav-btn active px-6 py-3 font-mono font-bold text-sm uppercase tracking-wider border border-primary bg-primary/10 text-primary hover:bg-primary hover:text-black transition-all cyber-button whitespace-nowrap";
+            });
+        });
+
+        // ROI Logic
+        function calculateROI() {
+            const spend = parseFloat(document.getElementById('roiSpend').value) || 0;
+            const feePct = parseFloat(document.getElementById('roiFee').value) / 100 || 0;
+            const ptsPerDollar = parseFloat(document.getElementById('roiPtsPerDollar').value) || 0;
+            const ptValue = parseFloat(document.getElementById('roiPtValue').value) || 0;
+
+            const fees = spend * feePct;
+            const points = spend * ptsPerDollar;
+            const rewardsValue = points * ptValue;
+            const netProfit = rewardsValue - fees;
+            const roi = fees > 0 ? ((rewardsValue - fees) / fees) * 100 : 0;
+
+            document.getElementById('resFees').innerText = `$${fees.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+            document.getElementById('resRewards').innerText = `$${rewardsValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+
+            const profitEl = document.getElementById('resProfit');
+            profitEl.innerText = `$${netProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+            profitEl.className = netProfit >= 0
+                ? "text-6xl md:text-7xl font-black text-primary tracking-tighter mb-4"
+                : "text-6xl md:text-7xl font-black text-danger tracking-tighter mb-4";
+
+            const roiEl = document.getElementById('resROI');
+            roiEl.innerText = `${roi.toFixed(2)}% ROI`;
+            roiEl.className = netProfit >= 0
+                ? "inline-block px-4 py-1 bg-primary/10 text-primary border border-primary/30 font-mono rounded-none"
+                : "inline-block px-4 py-1 bg-danger/10 text-danger border border-danger/30 font-mono rounded-none";
+
+            const results = document.getElementById('roiResults');
+            results.classList.remove('hidden');
+            setTimeout(() => results.classList.remove('opacity-0'), 50);
+        }
+
+        // AZEO Logic
+        let cardCount = 0;
+        function addCard() {
+            cardCount++;
+            const div = document.createElement('div');
+            div.className = "bg-white/5 border border-white/10 p-4 relative group hover:border-primary/50 transition-colors";
+            div.innerHTML = `
+                <div class="absolute top-2 right-2 text-xs text-muted font-mono opacity-50 group-hover:opacity-100">#${cardCount}</div>
+                <div class="mb-3">
+                    <label class="block text-muted text-[10px] uppercase tracking-widest mb-1">Current Balance</label>
+                    <input type="number" placeholder="0.00" class="card-balance w-full bg-black border border-gray-800 focus:border-white text-white p-2 font-mono text-sm focus:outline-none">
+                </div>
+                 <div>
+                    <label class="block text-muted text-[10px] uppercase tracking-widest mb-1">Credit Limit</label>
+                    <input type="number" placeholder="5000" class="card-limit w-full bg-black border border-gray-800 focus:border-white text-white p-2 font-mono text-sm focus:outline-none">
+                </div>
+            `;
+            document.getElementById('cardInputs').appendChild(div);
+        }
+
+        function simulateAZEO() {
+            const balances = Array.from(document.querySelectorAll('.card-balance')).map(i => parseFloat(i.value) || 0);
+            const limits = Array.from(document.querySelectorAll('.card-limit')).map(i => parseFloat(i.value) || 0);
+
+            if (limits.length === 0 || limits.every(l => l === 0)) {
+                alert('Limit Validation Error: Please define at least one credit line.');
+                return;
+            }
+
+            let maxIdx = 0;
+            for (let i = 1; i < limits.length; i++) {
+                if (limits[i] > limits[maxIdx]) maxIdx = i;
+            }
+
+            let html = `<div class="bg-black border border-primary p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-2 bg-primary text-black font-bold font-mono text-xs uppercase">Optimization Result</div>
+                <div class="space-y-4 mt-4">`;
+
+            let totalPay = 0;
+
+            limits.forEach((limit, i) => {
+                const isPrimary = i === maxIdx;
+                const target = isPrimary ? limit * 0.09 : 0;
+                const current = balances[i];
+                const payment = Math.max(0, current - target);
+                totalPay += payment;
+
+                html += `
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <div>
+                            <span class="text-xs font-mono text-muted mr-2">CARD ${i + 1}</span>
+                            <span class="${isPrimary ? 'text-primary' : 'text-white'} text-sm font-bold">${isPrimary ? 'PRIMARY (<10%)' : 'ZERO (0%)'}</span>
+                        </div>
+                        <div class="text-right">
+                             <div class="text-xs text-muted">$${current} -> $${target.toFixed(0)}</div>
+                             <div class="text-white font-mono font-bold ${payment > 0 ? 'text-primary' : 'text-gray-500'}">PAY: $${payment.toFixed(2)}</div>
+                        </div>
+                    </div>
+                 `;
+            });
+
+            html += `</div>
+                <div class="mt-6 pt-4 border-t border-primary/30 flex justify-between items-end">
+                    <span class="text-muted text-xs uppercase tracking-widest">Total Liquidity Required</span>
+                    <span class="text-3xl text-white font-black font-mono">$${totalPay.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                </div>
+             </div>`;
+
+            const res = document.getElementById('azeoResults');
+            res.innerHTML = html;
+            res.classList.remove('hidden');
+        }
+
+        // RISK Logic
+        function checkRisk() {
+            const input = document.getElementById('riskSteps').value;
+            const steps = input.split(',').map(s => s.trim()).filter(s => s);
+
+            const res = document.getElementById('riskResults');
+            res.classList.remove('hidden');
+
+            if (steps.length < 2) {
+                res.innerHTML = `<div class="p-4 bg-danger/10 border border-danger text-danger font-mono text-sm">ERROR: Insufficient data points. Minimum 2 nodes required.</div>`;
+                return;
+            }
+
+            const risks = [];
+            for (let i = 0; i < steps.length - 2; i++) {
+                if (steps[i].toLowerCase() === steps[i + 2].toLowerCase()) {
+                    risks.push(`LOOP DETECTED: Node "${steps[i]}" re-accessed at index ${i + 3}. Circular velocity high.`);
+                }
+            }
+            if (steps[0].toLowerCase() === steps[steps.length - 1].toLowerCase()) {
+                risks.push(`CLOSED CIRCUIT: Start and End nodes identical ("${steps[0]}"). Shutdown probability: CRITICAL.`);
+            }
+
+            if (risks.length > 0) {
+                res.innerHTML = `
+                    <div class="p-6 bg-danger/10 border border-danger/50">
+                        <h3 class="text-danger font-bold uppercase tracking-widest mb-4 flex items-center">
+                            <span class="text-2xl mr-2">⚠️</span> Threat Model: COMPROMISED
+                        </h3>
+                        <ul class="space-y-2 font-mono text-sm text-red-300 list-disc pl-5">
+                            ${risks.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            } else {
+                res.innerHTML = `
+                    <div class="p-6 bg-success/10 border border-success/50">
+                        <h3 class="text-success font-bold uppercase tracking-widest mb-2 flex items-center">
+                            <span class="text-2xl mr-2">✅</span> Threat Model: SECURE
+                        </h3>
+                        <p class="font-mono text-sm text-green-300">Topology appears linear. No circular references detected within current vector.</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+
+</html>
